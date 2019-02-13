@@ -1,6 +1,6 @@
 # cacheman-level
 
-Redis standalone caching library for Node.JS and also cache engine for [cacheman](https://github.com/cayasso/cacheman).
+Standalone caching library for Node.JS and also cache engine for [cacheman](https://github.com/cayasso/cacheman) using LevelDB specifically [level](https://www.npmjs.com/package/level).
 
 ## Instalation
 
@@ -52,7 +52,7 @@ const options = {
 
 const cache = new CachemanLevel(location, options);
 ```
-
+more options get be found [here](https://www.npmjs.com/package/leveldown#ctor)
 
 ### cache.set(key, value, [ttl, [fn]])
 
