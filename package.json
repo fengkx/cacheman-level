@@ -1,5 +1,5 @@
 {
-  "name": "cacheman-leveldb",
+  "name": "cacheman-level",
   "version": "1.0.0",
   "description": "Cacheman engine using leveldb",
   "main": "index.js",
@@ -19,9 +19,9 @@
   "author": "fengkx",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/fengkx/cacheman-leveldb/issues"
+    "url": "https://github.com/fengkx/cacheman-level/issues"
   },
-  "homepage": "https://github.com/fengkx/cacheman-leveldb#readme",
+  "homepage": "https://github.com/fengkx/cacheman-level#readme",
   "devDependencies": {
     "ava": "^1.2.1"
   },
