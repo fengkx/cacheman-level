@@ -9,6 +9,7 @@ class LevelDBCache {
         if (options) {
             db = level(location, options);
             checkFrequency = options.checkFrequency;
+            prefix = options.prefix;
         } else {
             db = level(location);
         }
