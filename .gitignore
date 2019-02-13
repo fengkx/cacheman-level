@@ -1,4 +1,7 @@
+.nyc_output
 node_modules
 *.log
 .DS_Store
 tmp
+.idea
+.idea/*

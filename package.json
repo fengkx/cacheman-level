@@ -4,7 +4,8 @@
   "description": "Cacheman engine using leveldb",
   "main": "index.js",
   "scripts": {
-    "test": "ava"
+    "test": "nyc ava",
+    "format": "eslint \"**/*.js\" --fix && prettier \"**/*.{js,json,md}\" --write"
   },
   "repository": {
     "type": "git",
@@ -23,9 +24,13 @@
   },
   "homepage": "https://github.com/fengkx/cacheman-level#readme",
   "devDependencies": {
-    "ava": "^1.2.1"
+    "ava": "^1.2.1",
+    "eslint": "^5.13.0",
+    "nyc": "^13.2.0",
+    "prettier": "1.16.4"
   },
   "dependencies": {
-    "level": "^4.0.0"
+    "level": "^4.0.0",
+    "level-ttl": "^3.1.1"
   }
 }
