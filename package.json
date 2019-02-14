@@ -1,6 +1,6 @@
 {
   "name": "cacheman-level",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Cacheman engine using leveldb",
   "main": "./src/index.js",
   "scripts": {
