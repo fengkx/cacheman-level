@@ -52,7 +52,8 @@ class LevelDBCache {
 
     get(key, fn = noop) {
         if (typeof key !== 'string') throw new Error('key store in LevelDB must be string');
-        this.db.get(key, function(err, value) {
+        const k = `${this.prefix}${key}`
+        this.db.get(k, function(err, value) {
             if (err) {
                 if (err.notFound) {
                     fn(null, null);
