@@ -38,7 +38,7 @@ class LevelDBCache {
                 if (err) {
                     return fn(err);
                 }
-                fn(null, null);
+                fn(null, value);
             });
         } else {
             this.db.put(k, value, { ttl: ttl*1000 }, function(err) {
