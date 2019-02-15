@@ -4,7 +4,7 @@ Standalone caching library for Node.JS and also cache engine for [cacheman](http
 
 ## Instalation
 
-``` bash
+```bash
 $ npm install cacheman-level
 ```
 
@@ -15,26 +15,22 @@ const CachemanLevel = require('cacheman-level');
 const cache = new CachemanLevel('./DS_Store'); //location
 
 // set the value
-cache.set('my key', { foo: 'bar' }, function (error) {
-
-  if (error) throw error;
-
-  // get the value
-  cache.get('my key', function (error, value) {
-
+cache.set('my key', { foo: 'bar' }, function(error) {
     if (error) throw error;
 
-    console.log(value); //-> {foo:"bar"}
+    // get the value
+    cache.get('my key', function(error, value) {
+        if (error) throw error;
 
-    // delete entry
-    cache.del('my key', function (error){
-      
-      if (error) throw error;
+        console.log(value); //-> {foo:"bar"}
 
-      console.log('value deleted');
+        // delete entry
+        cache.del('my key', function(error) {
+            if (error) throw error;
+
+            console.log('value deleted');
+        });
     });
-
-  });
 });
 ```
 
@@ -45,13 +41,14 @@ cache.set('my key', { foo: 'bar' }, function (error) {
 Create `cacheman-redis` instance. `options` are redis valid options including `port` and `host`.
 
 ```javascript
-const options = { 
-  prefix: 'cache',
-  checkFrequency: 15* 1000
+const options = {
+    prefix: 'cache',
+    checkFrequency: 15 * 1000
 };
 
 const cache = new CachemanLevel(location, options);
 ```
+
 more options get be found [here](https://www.npmjs.com/package/leveldown#ctor)
 
 ### cache.set(key, value, [ttl, [fn]])
@@ -59,9 +56,9 @@ more options get be found [here](https://www.npmjs.com/package/leveldown#ctor)
 Stores or updates a value.
 
 ```javascript
-cache.set('foo', { a: 'bar' }, function (err, value) {
-  if (err) throw err;
-  console.log(value); //-> {a:'bar'}
+cache.set('foo', { a: 'bar' }, function(err, value) {
+    if (err) throw err;
+    console.log(value); //-> {a:'bar'}
 });
 ```
 
@@ -69,9 +66,9 @@ Or add a TTL(Time To Live) in seconds like this:
 
 ```javascript
 // key will expire in 60 seconds
-cache.set('foo', { a: 'bar' }, 60, function (err, value) {
-  if (err) throw err;
-  console.log(value); //-> {a:'bar'}
+cache.set('foo', { a: 'bar' }, 60, function(err, value) {
+    if (err) throw err;
+    console.log(value); //-> {a:'bar'}
 });
 ```
 
@@ -80,9 +77,9 @@ cache.set('foo', { a: 'bar' }, 60, function (err, value) {
 Retrieves a value for a given key, if there is no value for the given key a null value will be returned.
 
 ```javascript
-cache.get(function (err, value) {
-  if (err) throw err;
-  console.log(value);
+cache.get(function(err, value) {
+    if (err) throw err;
+    console.log(value);
 });
 ```
 
@@ -91,9 +88,9 @@ cache.get(function (err, value) {
 Deletes a key out of the cache.
 
 ```javascript
-cache.del('foo', function (err) {
-  if (err) throw err;
-  // foo was deleted
+cache.del('foo', function(err) {
+    if (err) throw err;
+    // foo was deleted
 });
 ```
 
@@ -102,14 +99,14 @@ cache.del('foo', function (err) {
 Clear the cache entirely, throwing away all values.
 
 ```javascript
-cache.clear(function (err) {
-  if (err) throw err;
-  // cache is now clear
+cache.clear(function(err) {
+    if (err) throw err;
+    // cache is now clear
 });
 ```
 
 ## Run tests
 
-``` bash
+```bash
 $ npx ava
 ```

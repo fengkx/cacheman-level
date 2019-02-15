@@ -83,10 +83,7 @@ test.cb('set false', (t) => {
 });
 
 test.cb('set object', (t) => {
-    const o = { a: 'a',
-        b: 'b',
-        n: null,
-        num: 3 };
+    const o = { a: 'a', b: 'b', n: null, num: 3 };
     cache.set('object', o, function(err) {
         if (err) throw err;
         cache.get('object', function(err, val) {
@@ -118,7 +115,7 @@ test.cb('get many times', (t) => {
 });
 
 test.serial.cb('set ttl', (t) => {
-    const ttl = 2000;
+    const ttl = 2;
     cache.set('ttl', ttl, ttl, function(err) {
         if (err) throw err;
         cache.get('ttl', function(err, val) {
@@ -162,9 +159,7 @@ test.cb('error no string key', (t) => {
 });
 
 test.cb('delete item', (t) => {
-    const o = { num: 123,
-        obj: { a: 'A',
-            b: 'B' } };
+    const o = { num: 123, obj: { a: 'A', b: 'B' } };
     cache.set('item', o, function(err) {
         if (err) throw err;
         cache.get('item', function(err, val) {
@@ -188,4 +183,16 @@ test.cb('error get empty key', (t) => {
         t.is(val, null);
         t.end();
     });
+});
+
+test('can pass option to level', (t) => {
+    const c = new Cache('./.DS_Store_test', {
+        cacheSize: 10 * 1024 * 1024,
+        checkFrequency: 15 * 1000,
+        prefix: 'cache'
+    });
+    t.truthy(c);
+    t.is(c.prefix, 'cache');
+    t.is(c.db.options.cacheSize, 10 * 1024 * 1024);
+    c.close();
 });
