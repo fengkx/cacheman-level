@@ -2,7 +2,7 @@
 .prettierignore
 .prettierrc
 node_modules
-.DS_Store
+.DS_Store*
 *.log
 test
 test.js
@@ -18,3 +18,4 @@ LICENSE
 .wafpickle-*
 config.gypi
 CVS
+.nyc_output
