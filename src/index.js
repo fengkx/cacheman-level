@@ -7,6 +7,10 @@ class LevelDBCache {
         let db, checkFrequency, prefix;
         if (!location)
             throw new Error('You should proide a location to store data');
+        if(typeof options === 'function') {
+            cb = options;
+            options = null
+        }
         if (options) {
             db = level(location, options);
             checkFrequency = options.checkFrequency;
