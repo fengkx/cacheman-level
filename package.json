@@ -4,7 +4,8 @@
   "description": "Cacheman engine using leveldb",
   "main": "./src/index.js",
   "scripts": {
-    "test": "nyc ava",
+    "test": "nyc --reporter=html --reporter=text ava",
+    "coverage": "nyc report --reporter=text-lcov | coveralls",
     "format": "eslint \"**/*.js\" --fix && prettier \"**/*.{js,json,md}\" --write"
   },
   "repository": {
@@ -25,6 +26,7 @@
   "homepage": "https://github.com/fengkx/cacheman-level#readme",
   "devDependencies": {
     "ava": "^1.2.1",
+    "coveralls": "^3.0.2",
     "eslint": "^5.13.0",
     "nyc": "^13.3.0",
     "prettier": "1.16.4"

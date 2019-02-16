@@ -20,3 +20,4 @@ config.gypi
 CVS
 .nyc_output
 .travis.yml
+coverage
