@@ -9,9 +9,9 @@ test.before('createCache', (t) => {
 });
 
 test.after('closeCache', (t) => {
-    cache.clear(function (err) {
+    cache.clear(function(err) {
         if (!err) {
-            cache.close(function (err) {
+            cache.close(function(err) {
                 if (!err) t.pass();
             });
         }
@@ -31,7 +31,7 @@ test.cb('set value', (t) => {
 });
 
 test.cb('get value', (t) => {
-    cache.get('abc', function (e, v) {
+    cache.get('abc', function(e, v) {
         if (!e) {
             t.is(v, 'ABC');
             t.end();
@@ -40,16 +40,16 @@ test.cb('get value', (t) => {
 });
 
 test.cb('cleanup', (t) => {
-    cache.set('a', 'A', function (err) {
+    cache.set('a', 'A', function(err) {
         if (err) throw err;
-        cache.set('b', 'B', function (err) {
+        cache.set('b', 'B', function(err) {
             if (err) throw err;
-            cache.clear(function (err) {
+            cache.clear(function(err) {
                 if (err) throw err;
-                cache.get('a', function (err, val) {
+                cache.get('a', function(err, val) {
                     if (err) throw err;
                     t.is(val, null);
-                    cache.get('b', function (err, val) {
+                    cache.get('b', function(err, val) {
                         if (err) throw err;
                         t.is(val, null);
                         t.end();
@@ -61,9 +61,9 @@ test.cb('cleanup', (t) => {
 });
 
 test.cb('set zero', (t) => {
-    cache.set('zero', 0, function (err) {
+    cache.set('zero', 0, function(err) {
         if (err) throw err;
-        cache.get('zero', function (err, val) {
+        cache.get('zero', function(err, val) {
             if (err) throw err;
             t.is(val, 0);
             t.end();
@@ -72,9 +72,9 @@ test.cb('set zero', (t) => {
 });
 
 test.cb('set false', (t) => {
-    cache.set('false', false, function (err) {
+    cache.set('false', false, function(err) {
         if (err) throw err;
-        cache.get('false', function (err, val) {
+        cache.get('false', function(err, val) {
             if (err) throw err;
             t.is(val, false);
             t.end();
@@ -83,10 +83,10 @@ test.cb('set false', (t) => {
 });
 
 test.cb('set object', (t) => {
-    const o = {a: 'a', b: 'b', n: null, num: 3};
-    cache.set('object', o, function (err) {
+    const o = { a: 'a', b: 'b', n: null, num: 3 };
+    cache.set('object', o, function(err) {
         if (err) throw err;
-        cache.get('object', function (err, val) {
+        cache.get('object', function(err, val) {
             if (err) throw err;
             t.deepEqual(val, o);
             t.end();
@@ -96,15 +96,15 @@ test.cb('set object', (t) => {
 
 test.cb('get many times', (t) => {
     t.plan(3);
-    cache.set('times', 'asd123', function (err) {
+    cache.set('times', 'asd123', function(err) {
         if (err) throw err;
-        cache.get('times', function (err, data) {
+        cache.get('times', function(err, data) {
             if (err) throw err;
             t.is(data, 'asd123');
-            cache.get('times', function (err, data) {
+            cache.get('times', function(err, data) {
                 if (err) throw err;
                 t.is(data, 'asd123');
-                cache.get('times', function (err, data) {
+                cache.get('times', function(err, data) {
                     if (err) throw err;
                     t.is(data, 'asd123');
                     t.end();
@@ -116,14 +116,14 @@ test.cb('get many times', (t) => {
 
 test.serial.cb('set ttl', (t) => {
     const ttl = 2;
-    cache.set('ttl', ttl, ttl, function (err) {
+    cache.set('ttl', ttl, ttl, function(err) {
         if (err) throw err;
-        cache.get('ttl', function (err, val) {
+        cache.get('ttl', function(err, val) {
             if (err) throw err;
             t.is(val, ttl);
             // CheckFrequency default 15s
             setTimeout(() => {
-                cache.get('ttl', function (err, val) {
+                cache.get('ttl', function(err, val) {
                     if (err) throw err;
                     t.is(val, null);
                     t.end();
@@ -135,13 +135,13 @@ test.serial.cb('set ttl', (t) => {
 
 test.serial.cb('set ttl as -1', (t) => {
     // t.plan(3)
-    cache.set('-1', 123, -1, function (err) {
+    cache.set('-1', 123, -1, function(err) {
         if (err) throw err;
-        cache.get('-1', function (err, val) {
+        cache.get('-1', function(err, val) {
             if (err) throw err;
             t.is(val, 123);
             setTimeout(() => {
-                cache.get('-1', function (err, v) {
+                cache.get('-1', function(err, v) {
                     if (err) throw err;
                     t.is(v, 123);
                     t.end();
@@ -149,12 +149,11 @@ test.serial.cb('set ttl as -1', (t) => {
             }, 3000);
         });
     });
-
 });
 
 test.cb('error no string key', (t) => {
     const error = t.throws(() => {
-        cache.set(123, {a: 'A'});
+        cache.set(123, { a: 'A' });
     });
     t.is(error.message, 'key store in LevelDB must be string');
     const error2 = t.throws(() => {
@@ -162,22 +161,22 @@ test.cb('error no string key', (t) => {
     });
     t.is(error.message, 'key store in LevelDB must be string');
     const error3 = t.throws(() => {
-        cache.del(123, {a: 'A'});
+        cache.del(123, { a: 'A' });
     });
     t.is(error.message, 'key store in LevelDB must be string');
     t.end();
 });
 
 test.cb('delete item', (t) => {
-    const o = {num: 123, obj: {a: 'A', b: 'B'}};
-    cache.set('item', o, function (err) {
+    const o = { num: 123, obj: { a: 'A', b: 'B' } };
+    cache.set('item', o, function(err) {
         if (err) throw err;
-        cache.get('item', function (err, val) {
+        cache.get('item', function(err, val) {
             if (err) throw err;
             t.deepEqual(val, o);
-            cache.del('item', function (err) {
+            cache.del('item', function(err) {
                 if (err) throw err;
-                cache.get('item', function (err, val) {
+                cache.get('item', function(err, val) {
                     if (err) throw err;
                     t.deepEqual(val, null);
                     t.end();
@@ -188,7 +187,7 @@ test.cb('delete item', (t) => {
 });
 
 test.cb('error get empty key', (t) => {
-    cache.get('not found', function (err, val) {
+    cache.get('not found', function(err, val) {
         if (err) throw err;
         t.is(val, null);
         t.end();
@@ -207,26 +206,37 @@ test('can pass option to level', (t) => {
     c.close();
 });
 
-test('need to pass location', t => {
+test('need to pass location', (t) => {
     const err = t.throws(() => {
         const c = new Cache();
     });
     t.is(err.message, 'You should proide a location to store data');
 });
 
-test.cb('error cause', t => {
-    const c = new Cache('./.DS_Store_test2', function (err) {
-        c.set('closed', {a: '1'}, function (err) {
-            c.close(function (err) {
-                c.set('closed', {a: '1'}, function (err) {
-                    if(!err)t.fail();
-                })
-                c.get('closed', function (err, val) {
-                    if(!err)t.fail();
-                    t.end()
-                })
-                })
-            })
-        })
-    })
+test.cb('error cause', (t) => {
+    const c = new Cache('./.DS_Store_test2', function(err) {
+        c.set('closed', { a: '1' }, function(err) {
+            c.close(function(err) {
+                c.set('closed', { a: '1' }, function(err) {
+                    if (!err) t.fail();
+                });
+                c.set('closed', { b: '2' }, -1, function(err) {
+                    if (!err) t.fail();
+                });
+                c.get('closed', function(err, val) {
+                    if (!err) t.fail();
+                    t.end();
+                });
+            });
+        });
+    });
+});
 
+test.cb('error JSON stringify typeerror', t => {
+    let o = {};
+    o.o=o;
+    cache.set('cyclic object', o, function (err) {
+        t.true(err instanceof TypeError);
+        t.end()
+    });
+});
