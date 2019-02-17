@@ -109,5 +109,5 @@ cache.clear(function(err) {
 ## Run tests
 
 ```bash
-$ npx ava
+$ npm test
 ```
