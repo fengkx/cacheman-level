@@ -1,8 +1,11 @@
 # cacheman-level
 
 Standalone caching library for Node.JS and also cache engine for [cacheman](https://github.com/cayasso/cacheman) using LevelDB specifically [level](https://www.npmjs.com/package/level).
+
+[![NPM](https://nodei.co/npm/cacheman-level.png)](https://nodei.co/npm/cacheman-level/)
 [![Build Status](https://travis-ci.org/fengkx/cacheman-level.svg?branch=master)](https://travis-ci.org/fengkx/cacheman-level)
 [![Coverage Status](https://coveralls.io/repos/github/fengkx/cacheman-level/badge.svg?branch=master)](https://coveralls.io/github/fengkx/cacheman-level?branch=master)
+
 ## Instalation
 
 ```bash
