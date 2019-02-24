@@ -39,7 +39,7 @@ class LevelDBCache {
         } catch (e) {
             fn(e);
         }
-        if (ttl === -1) {
+        if (ttl === -1 || ttl === null) {
             this.db.put(k, value, function(err) {
                 if (err) {
                     return fn(err);
