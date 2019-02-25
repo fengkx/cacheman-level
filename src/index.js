@@ -51,7 +51,7 @@ class LevelDBCache {
                 if (err) {
                     return fn(err);
                 }
-                fn(null, null);
+                fn(null, value);
             });
         }
     }
