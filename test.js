@@ -84,7 +84,10 @@ test.cb('set false', (t) => {
 });
 
 test.cb('set object', (t) => {
-    const o = { a: 'a', b: 'b', n: null, num: 3 };
+    const o = { a: 'a',
+        b: 'b',
+        n: null,
+        num: 3 };
     cache.set('object', o, function(err) {
         if (err) throw err;
         cache.get('object', function(err, val) {
@@ -135,7 +138,7 @@ test.serial.cb('set ttl', (t) => {
 });
 
 test.serial.cb('set ttl as -1', (t) => {
-    // t.plan(3)
+    // T.plan(3)
     cache.set('-1', 123, -1, function(err) {
         if (err) throw err;
         cache.get('-1', function(err, val) {
@@ -169,7 +172,9 @@ test.cb('error no string key', (t) => {
 });
 
 test.cb('delete item', (t) => {
-    const o = { num: 123, obj: { a: 'A', b: 'B' } };
+    const o = { num: 123,
+        obj: { a: 'A',
+            b: 'B' } };
     cache.set('item', o, function(err) {
         if (err) throw err;
         cache.get('item', function(err, val) {
@@ -195,7 +200,7 @@ test.cb('error get empty key', (t) => {
     });
 });
 
-test.cb('mock close err', t => {
+test.cb('mock close err', (t) => {
     mm.errorOnce(cache.db, 'close', 'mock close error');
     cache.close(function (err) {
         t.is(err.message, 'mock close error');
@@ -204,16 +209,16 @@ test.cb('mock close err', t => {
     })
 });
 
-test.cb('mock put err', t => {
+test.cb('mock put err', (t) => {
     mm.errorOnce(cache.db, 'put', 'mock put error');
-    cache.set('mock put err', {a:'A'}, 10, function (err, val) {
+    cache.set('mock put err', { a: 'A' }, 10, function (err) {
         t.is(err.message, 'mock put error');
         mm.restore();
         t.end()
     })
 });
 
-test.cb('mock del err', t=> {
+test.cb('mock del err', (t) => {
     mm.errorOnce(cache.db,'del', 'mock del error');
     cache.del('a', function (err) {
         t.is(err.message, 'mock del error');
@@ -261,8 +266,8 @@ test.cb('error cause', (t) => {
     });
 });
 
-test.cb('error JSON stringify typeerror', t => {
-    let o = {};
+test.cb('error JSON stringify typeerror', (t) => {
+    const o = {};
     o.o=o;
     cache.set('cyclic object', o, function (err) {
         t.true(err instanceof TypeError);

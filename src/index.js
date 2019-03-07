@@ -5,8 +5,7 @@ const noop = () => {};
 class LevelDBCache {
     constructor(location, options, cb) {
         let db, checkFrequency, prefix;
-        if (!location)
-            throw new Error('You should proide a location to store data');
+        if (!location) throw new Error('You should proide a location to store data');
         if(typeof options === 'function') {
             cb = options;
             options = null
@@ -31,8 +30,7 @@ class LevelDBCache {
             fn = ttl;
             ttl = null;
         }
-        if (typeof key !== 'string')
-            throw new Error('key store in LevelDB must be string');
+        if (typeof key !== 'string') throw new Error('key store in LevelDB must be string');
         const k = `${this.prefix}${key}`;
         try {
             value = JSON.stringify(value);
@@ -57,8 +55,7 @@ class LevelDBCache {
     }
 
     get(key, fn = noop) {
-        if (typeof key !== 'string')
-            throw new Error('key store in LevelDB must be string');
+        if (typeof key !== 'string') throw new Error('key store in LevelDB must be string');
         const k = `${this.prefix}${key}`;
         this.db.get(k, function(err, value) {
             if (err) {
@@ -74,8 +71,7 @@ class LevelDBCache {
     }
 
     del(key, fn = noop) {
-        if (typeof key !== 'string')
-            throw new Error('key store in LevelDB must be string');
+        if (typeof key !== 'string') throw new Error('key store in LevelDB must be string');
         this.db.del(key, function(err) {
             fn(err);
         });
