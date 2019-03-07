@@ -1,4 +1,5 @@
 const test = require('ava');
+const mm = require('mm');
 const Cache = require('./src');
 let cache;
 
@@ -159,11 +160,11 @@ test.cb('error no string key', (t) => {
     const error2 = t.throws(() => {
         cache.get(123);
     });
-    t.is(error.message, 'key store in LevelDB must be string');
+    t.is(error2.message, 'key store in LevelDB must be string');
     const error3 = t.throws(() => {
         cache.del(123, { a: 'A' });
     });
-    t.is(error.message, 'key store in LevelDB must be string');
+    t.is(error3.message, 'key store in LevelDB must be string');
     t.end();
 });
 
@@ -193,6 +194,34 @@ test.cb('error get empty key', (t) => {
         t.end();
     });
 });
+
+test.cb('mock close err', t => {
+    mm.errorOnce(cache.db, 'close', 'mock close error');
+    cache.close(function (err) {
+        t.is(err.message, 'mock close error');
+        mm.restore();
+        t.end();
+    })
+});
+
+test.cb('mock put err', t => {
+    mm.errorOnce(cache.db, 'put', 'mock put error');
+    cache.set('mock put err', {a:'A'}, 10, function (err, val) {
+        t.is(err.message, 'mock put error');
+        mm.restore();
+        t.end()
+    })
+});
+
+test.cb('mock del err', t=> {
+    mm.errorOnce(cache.db,'del', 'mock del error');
+    cache.del('a', function (err) {
+        t.is(err.message, 'mock del error');
+        mm.restore();
+        t.end();
+    })
+});
+
 
 test('can pass option to level', (t) => {
     const c = new Cache('./.DS_Store_test', {
