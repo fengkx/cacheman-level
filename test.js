@@ -1,10 +1,11 @@
 const test = require('ava');
 const mm = require('mm');
+const del = require('del');
 const Cache = require('./src');
 let cache;
 
 test.before('createCache', (t) => {
-    cache = new Cache('./.DS_Store');
+    cache = new Cache('./.DS_Store_test');
     t.context = 'created';
     t.pass();
 });
@@ -30,6 +31,28 @@ test('have main method', (t) => {
 test.cb('set value', (t) => {
     cache.set('abc', 'ABC', t.end);
 });
+
+test.cb('set value without callback', (t) => {
+    t.notThrows(() => {
+        cache.set('no cb', 'noThrow', 3);
+    });
+    t.end()
+});
+
+test.cb('del value without callback', (t) => {
+    t.notThrows(() => {
+        cache.del('no cb');
+    });
+    t.end();
+});
+
+test.cb('clear without callback', (t) => {
+    t.notThrows(() => {
+        cache.clear();
+    });
+    t.end();
+});
+
 
 test.cb('get value', (t) => {
     cache.get('abc', function(e, v) {
@@ -229,7 +252,7 @@ test.cb('mock del err', (t) => {
 
 
 test('can pass option to level', (t) => {
-    const c = new Cache('./.DS_Store_test', {
+    const c = new Cache('./.DS_Store_test1', {
         cacheSize: 10 * 1024 * 1024,
         checkFrequency: 15 * 1000,
         prefix: 'cache'
@@ -274,3 +297,8 @@ test.cb('error JSON stringify typeerror', (t) => {
         t.end()
     });
 });
+
+
+test.after('clean DS_Store_test dir', async (t) => {
+    await del(['.DS_Store_test*'])
+})
