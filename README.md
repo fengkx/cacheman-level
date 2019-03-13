@@ -42,7 +42,7 @@ cache.set('my key', { foo: 'bar' }, function(error) {
 
 ### CachemanLevel(location, [options, error-handler])
 
-Create `cacheman-redis` instance. `options` are redis valid options including `port` and `host`.
+Create `cacheman-level` instance. `options` are [level](https://www.npmjs.com/package/level) options including `checkFrequency`.
 
 ```javascript
 const options = {
