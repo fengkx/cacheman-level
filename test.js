@@ -1,3 +1,4 @@
+/* eslint-disable */
 const test = require('ava');
 const mm = require('mm');
 const del = require('del');
@@ -32,18 +33,20 @@ test.cb('set value', (t) => {
     cache.set('abc', 'ABC', t.end);
 });
 
-test.cb('set value without callback', (t) => {
-    t.notThrows(() => {
-        cache.set('no cb', 'noThrow', 3);
-    });
-    t.end()
+test('set value without callback', async (t) => {
+    const stringifyVal = await cache.set('no cb', 'noThrow', 3);
+    t.is(stringifyVal, JSON.stringify('noThrow'));
 });
 
-test.cb('del value without callback', (t) => {
-    t.notThrows(() => {
-        cache.del('no cb');
-    });
-    t.end();
+test('del value without callback', async (t) => {
+    t.plan(2);
+    const data = { q: 123 };
+    await cache.set('no cb', data);
+    let val = await cache.get('no cb');
+    t.deepEqual(val, data);
+    await cache.del('no cb');
+    val = await cache.get('no cb');
+    t.deepEqual(val, null);
 });
 
 test.cb('clear without callback', (t) => {
@@ -52,7 +55,6 @@ test.cb('clear without callback', (t) => {
     });
     t.end();
 });
-
 
 test.cb('get value', (t) => {
     cache.get('abc', function(e, v) {
@@ -107,10 +109,7 @@ test.cb('set false', (t) => {
 });
 
 test.cb('set object', (t) => {
-    const o = { a: 'a',
-        b: 'b',
-        n: null,
-        num: 3 };
+    const o = { a: 'a', b: 'b', n: null, num: 3 };
     cache.set('object', o, function(err) {
         if (err) throw err;
         cache.get('object', function(err, val) {
@@ -195,9 +194,7 @@ test.cb('error no string key', (t) => {
 });
 
 test.cb('delete item', (t) => {
-    const o = { num: 123,
-        obj: { a: 'A',
-            b: 'B' } };
+    const o = { num: 123, obj: { a: 'A', b: 'B' } };
     cache.set('item', o, function(err) {
         if (err) throw err;
         cache.get('item', function(err, val) {
@@ -225,31 +222,93 @@ test.cb('error get empty key', (t) => {
 
 test.cb('mock close err', (t) => {
     mm.errorOnce(cache.db, 'close', 'mock close error');
-    cache.close(function (err) {
+    cache.close(function(err) {
         t.is(err.message, 'mock close error');
         mm.restore();
         t.end();
-    })
+    });
+});
+
+test('mock close err promise', async (t) => {
+    mm.errorOnce(cache.db, 'close', 'mock close error');
+    try {
+        await cache.close();
+    } catch (e) {
+        t.is(e.message, 'mock close error');
+    } finally {
+        mm.restore();
+    }
+});
+
+test('mock get err promise', async (t) => {
+    mm.errorOnce(cache.db, 'get', 'mock get error');
+    try {
+        await cache.get('e');
+    } catch (e) {
+        t.is(e.message, 'mock get error');
+    } finally {
+        mm.restore();
+    }
+});
+
+test('mock set err promise', async (t) => {
+    mm.errorOnce(cache.db, 'put', 'mock set error');
+    try {
+        await cache.set('e', 123);
+    } catch (e) {
+        t.is(e.message, 'mock set error');
+    }
+    mm.restore();
 });
 
 test.cb('mock put err', (t) => {
     mm.errorOnce(cache.db, 'put', 'mock put error');
-    cache.set('mock put err', { a: 'A' }, 10, function (err) {
+    cache.set('mock put err', { a: 'A' }, 10, function(err) {
         t.is(err.message, 'mock put error');
         mm.restore();
-        t.end()
-    })
+        t.end();
+    });
+});
+
+test('mock put err promise', async (t) => {
+    mm.error(cache.db, 'put', 'mock put error');
+    try {
+        await cache.set('mock put err', 123, 5);
+    } catch (e) {
+        t.is(e.message, 'mock put error');
+    }
+    try {
+        await cache.set('mock put err', -1, 5);
+    } catch (e) {
+        t.is(e.message, 'mock put error');
+    }
+    mm.restore();
+});
+
+test('not found promise', async (t) => {
+    mm.restore();
+    const val = await cache.get('no found never found');
+    t.is(val, null);
 });
 
 test.cb('mock del err', (t) => {
-    mm.errorOnce(cache.db,'del', 'mock del error');
-    cache.del('a', function (err) {
+    mm.errorOnce(cache.db, 'del', 'mock del error');
+    cache.del('a', function(err) {
         t.is(err.message, 'mock del error');
         mm.restore();
         t.end();
-    })
+    });
 });
 
+test('mock del err promise', async (t) => {
+    mm.errorOnce(cache.db, 'del', 'mock del error');
+    try {
+        await cache.del('a');
+    } catch (e) {
+        mm.restore();
+        t.is(e.message, 'mock del error');
+    }
+});
 
 test('can pass option to level', (t) => {
     const c = new Cache('./.DS_Store_test1', {
@@ -291,14 +350,13 @@ test.cb('error cause', (t) => {
 
 test.cb('error JSON stringify typeerror', (t) => {
     const o = {};
-    o.o=o;
-    cache.set('cyclic object', o, function (err) {
+    o.o = o;
+    cache.set('cyclic object', o, function(err) {
         t.true(err instanceof TypeError);
-        t.end()
+        t.end();
     });
 });
 
-
 test.after('clean DS_Store_test dir', async (t) => {
-    await del(['.DS_Store_test*'])
-})
+    await del(['.DS_Store_test*']);
+});
