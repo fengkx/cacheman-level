@@ -14,6 +14,22 @@ $ npm install cacheman-level
 
 ## Usage
 
+**Promise is support**
+
+```js
+const CachemanLevel = require('cacheman-level');
+const cache = new CachemanLevel('./DS_Store'); //location
+;(async () => {
+    // set the value
+    await cache.set('my key', { foo: 'bar' });
+    const value = await cache.get('my key');
+    console.log(value); //-> {foo:"bar"}
+    
+})()
+
+```
+
+
 ```javascript
 const CachemanLevel = require('cacheman-level');
 const cache = new CachemanLevel('./DS_Store'); //location
