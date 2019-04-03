@@ -27,8 +27,8 @@
   "devDependencies": {
     "ava": "^1.4.1",
     "coveralls": "^3.0.3",
-    "del": "^4.0.0",
     "eslint": "^5.16.0",
+    "del": "^4.1.0",
     "mm": "^2.5.0",
     "nyc": "^13.3.0",
     "prettier": "1.16.4"
