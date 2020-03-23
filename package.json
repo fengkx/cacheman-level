@@ -8,6 +8,9 @@
     "coverage": "nyc report --reporter=text-lcov | coveralls",
     "format": "eslint \"**/*.js\" --fix && prettier \"**/*.{js,json,md}\" --write"
   },
+  "files": [
+	  "src/"
+  ],
   "repository": {
     "type": "git",
     "url": "git+https://github.com/fengkx/cacheman-leveldb.git"
@@ -29,13 +32,13 @@
     "coveralls": "^3.0.6",
     "del": "^5.1.0",
     "eslint": "^6.4.0",
-    "mm": "^3.0.2",
+    "mm": "^3.1.0",
     "nyc": "^15.0.0",
     "prettier": "^1.18.2"
   },
   "dependencies": {
     "any-promise": "^1.3.0",
-    "level": "^6.0.0",
+    "level": "^6.0.1",
     "level-ttl": "^3.1.1"
   }
 }
