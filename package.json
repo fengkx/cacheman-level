@@ -28,7 +28,7 @@
   },
   "homepage": "https://github.com/fengkx/cacheman-level#readme",
   "devDependencies": {
-    "ava": "^3.5.1",
+    "ava": "^4.3.3",
     "coveralls": "^3.0.6",
     "del": "^6.0.0",
     "eslint": "^8.1.0",
